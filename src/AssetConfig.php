@@ -661,6 +661,11 @@ class AssetConfig
         return !empty($this->_targets[$target]['theme']);
     }
 
+    public function isStatic(string $target): bool
+    {
+        return !empty($this->_targets[$target]['static']);
+    }
+
     /**
      * Get the list of extensions this config object supports.
      *

@@ -46,6 +46,11 @@ class AssetTarget
     /**
      * @var bool
      */
+    protected bool $static = false;
+
+    /**
+     * @var bool
+     */
     protected bool $themed;
 
     /**
@@ -57,13 +62,15 @@ class AssetTarget
      *                                                 resources to be included e.g. Sprockets
      * @param bool                            $themed  Whether or not this file should be themed.
      */
-    public function __construct(string $path, array $files = [], array $filters = [], array $paths = [], bool $themed = false)
-    {
+    public function __construct(
+        string $path, array $files = [], array $filters = [], array $paths = [], bool $themed = false, bool $static = false
+    ) {
         $this->path = $path;
         $this->files = $files;
         $this->filters = $filters;
         $this->paths = $paths;
         $this->themed = $themed;
+        $this->static = $static;
     }
 
     /**
@@ -96,6 +103,11 @@ class AssetTarget
     public function path(): string
     {
         return $this->path;
+    }
+
+    public function isStatic(): bool
+    {
+        return $this->static;
     }
 
     /**

@@ -158,7 +158,7 @@ class Factory
             throw new RuntimeException("The target named '$name' does not exist.");
         }
         $ext = $this->config->getExt($name);
-
+        $static = $this->config->isStatic($name);
         $themed = $this->config->isThemed($name);
         $filters = $this->config->targetFilters($name);
         $target = $this->config->cachePath($ext) . $name;
@@ -199,7 +199,7 @@ class Factory
             }
         }
 
-        return new AssetTarget($target, $files, $filters, $paths, $themed);
+        return new AssetTarget($target, $files, $filters, $paths, $themed, $static);
     }
 
     /**
