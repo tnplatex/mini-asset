@@ -18,6 +18,7 @@ namespace MiniAsset\Filter;
 use Exception;
 use MiniAsset\AssetTarget;
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
 
 /**
  * Pre-processing filter that adds support for SCSS files.
@@ -63,15 +64,20 @@ class ScssPHP extends AssetFilter
         if (substr($filename, strlen($this->_settings['ext']) * -1) !== $this->_settings['ext']) {
             return $content;
         }
-        if (!class_exists('ScssPhp\\ScssPhp\\Compiler')) {
+
+        if (!class_exists('ScssPhp\ScssPhp\Compiler')) {
             throw new Exception(sprintf('Cannot not load filter class "%s".', 'ScssPhp\\ScssPhp\\Compiler'));
         }
+
         $sc = new Compiler();
+        $sc->setOutputStyle(OutputStyle::COMPRESSED);
         $sc->addImportPath(dirname($filename));
         foreach ($this->_settings['imports'] as $path) {
             $sc->addImportPath($path);
         }
 
-        return $sc->compile($content);
+        $result = $sc->compileString($content);
+
+        return $result->getCss();
     }
 }
